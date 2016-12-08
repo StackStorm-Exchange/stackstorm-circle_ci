@@ -4,13 +4,25 @@ description: Wait until build finishes.
 enabled: true
 entry_point: wait_until_build_finishes.py
 parameters:
-  build_number:
-    type: string
-    description: Circle CI build number.
-    required: true
   project:
     type: string
     description: Name of project in circle ci.
+    required: true
+  vcs_type:
+    type: string
+    description: Name of version control system.
+    required: true
+    enum:
+        - github
+        - bitbucket
+    default: github
+  username:
+    type: string
+    description: Username in circle ci.
+    required: true
+  build_num:
+    type: string
+    description: Circle CI build number.
     required: true
   wait_timeout:
     type: number

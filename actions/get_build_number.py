@@ -5,11 +5,11 @@ from lib.action import CircleCI
 
 class GetBuildNumberAction(CircleCI):
 
-    def run(self, vcs_revision, project, search_limit=10):
+    def run(self, project, vcs_type, username, vcs_revision, search_limit=10):
         """
         Get build number for a SHA in project.
         """
-        path = 'project/' + project
+        path = 'project/%s/%s/%s' % (vcs_type, username, project)
 
         response = self._perform_request(
             path, method='GET',

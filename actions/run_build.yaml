@@ -9,6 +9,18 @@ parameters:
     type: string
     description: Name of project in circle ci.
     required: true
+  vcs_type:
+    type: string
+    description: Name of version control system.
+    required: true
+    enum:
+        - github
+        - bitbucket
+    default: github
+  username:
+    type: string
+    description: Username in circle ci.
+    required: true
   branch:
     type: string
     description: Branch to run the build on.

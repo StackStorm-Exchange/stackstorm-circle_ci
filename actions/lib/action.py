@@ -5,7 +5,7 @@ import requests
 from st2actions.runners.pythonrunner import Action
 
 BASE_API_URL = 'https://circleci.com/api'
-API_VERSION = 'v1'
+API_VERSION = 'v1.1'
 API_URL = '%s/%s/' % (BASE_API_URL, API_VERSION)
 HEADER_ACCEPT = 'application/json'
 HEADER_CONTENT_TYPE = 'application/json'

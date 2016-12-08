@@ -6,11 +6,11 @@ from lib.action import CircleCI
 
 class WaitUntilBuildFinishes(CircleCI):
 
-    def run(self, build_number, project, wait_timeout=600):
+    def run(self, project, vcs_type, username, build_num, wait_timeout=600):
         """
         Get build number for a SHA in project.
         """
-        path = 'project/%s/%s' % (project, build_number)
+        path = 'project/%s/%s/%s/%s' % (vcs_type, username, project, build_num)
 
         start_time = time.time()
         done = False
@@ -20,7 +20,7 @@ class WaitUntilBuildFinishes(CircleCI):
             )
 
             if response.status_code != httplib.OK:
-                msg = ('Build number %s for project ' % build_number +
+                msg = ('Build number %s for project ' % build_num +
                        '%s not found.' % project)
                 raise Exception(msg)
 
