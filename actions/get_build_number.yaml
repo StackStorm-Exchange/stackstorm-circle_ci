@@ -4,13 +4,25 @@ description: Get build number for given SHA.
 enabled: true
 entry_point: get_build_number.py
 parameters:
-  vcs_revision:
-    type: string
-    description: Commit SHA/revision (usually github SHA).
-    required: true
   project:
     type: string
     description: Name of project in circle ci.
+    required: true
+  vcs_type:
+    type: string
+    description: Name of version control system.
+    required: true
+    enum:
+        - github
+        - bitbucket
+    default: github
+  username:
+    type: string
+    description: Username in circle ci.
+    required: true
+  vcs_revision:
+    type: string
+    description: Commit SHA/revision (usually github SHA).
     required: true
   search_limit:
     type: number

@@ -5,11 +5,11 @@ from lib.action import CircleCI
 
 class CancelBuild(CircleCI):
 
-    def run(self, project, build_num):
+    def run(self, project, vcs_type, username, build_num):
         """
         ReRun a specific build in project.
         """
-        path = 'project/%s/%s/cancel' % (project, build_num)
+        path = 'project/%s/%s/%s/%s/cancel' % (vcs_type, username, project, build_num)
 
         response = self._perform_request(
             path, method='POST'
