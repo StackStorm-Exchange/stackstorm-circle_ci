@@ -18,7 +18,7 @@ class WaitUntilBuildFinishesActionTestCase(BaseActionTestCase):
         setattr(action, 'config', {'token': 'dummy'})
         test_build_num = 373
         MOCK_RESPONSE = {'error': 'Build not found'}
-        MOCK_URL = ('https://circleci.com/api/v1/project/area51/%s' %
+        MOCK_URL = ('https://circleci.com/api/v1.1/project/git/some/area51/%s' %
                     str(test_build_num))
         responses.add(
             responses.GET,
@@ -26,7 +26,7 @@ class WaitUntilBuildFinishesActionTestCase(BaseActionTestCase):
             json=MOCK_RESPONSE,
             status=404)
         self.assertRaises(Exception, action.run,
-                          build_number=373, project='area51')
+                          build_num=373, vcs_type='git', username='some', project='area51')
 
     @responses.activate
     def test_timeout_fails_action(self):
@@ -34,7 +34,7 @@ class WaitUntilBuildFinishesActionTestCase(BaseActionTestCase):
         setattr(action, 'config', {'token': 'dummy'})
         test_build_num = 373
         MOCK_RESPONSE = {'lifecycle': 'Running'}
-        MOCK_URL = ('https://circleci.com/api/v1/project/area51/%s' %
+        MOCK_URL = ('https://circleci.com/api/v1.1/project/git/some/area51/%s' %
                     str(test_build_num))
         responses.add(
             responses.GET,
@@ -43,7 +43,7 @@ class WaitUntilBuildFinishesActionTestCase(BaseActionTestCase):
             status=200)
         TEST_TIMEOUT = 0.2
         try:
-            action.run(build_number=373, project='area51',
+            action.run(build_num=373, vcs_type='git', username='some', project='area51',
                        wait_timeout=TEST_TIMEOUT)
             self.fail('Action should have failed.')
         except Exception as e:
@@ -57,13 +57,13 @@ class WaitUntilBuildFinishesActionTestCase(BaseActionTestCase):
         setattr(action, 'config', {'token': 'dummy'})
         test_build_num = 373
         MOCK_RESPONSE = {'lifecycle': 'finished'}
-        MOCK_URL = ('https://circleci.com/api/v1/project/area51/%s' %
+        MOCK_URL = ('https://circleci.com/api/v1.1/project/git/some/area51/%s' %
                     str(test_build_num))
         responses.add(
             responses.GET,
             MOCK_URL,
             json=MOCK_RESPONSE,
             status=200)
-        ret = action.run(build_number=373, project='area51',
+        ret = action.run(build_num=373, vcs_type='git', username='some', project='area51',
                          wait_timeout=1)
         self.assertEqual(ret, True)
