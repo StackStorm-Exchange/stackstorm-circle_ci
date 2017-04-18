@@ -29,11 +29,12 @@ class GetBuildNumberActionTestCase(BaseActionTestCase):
         action = self.get_action_instance()
         setattr(action, 'config', {'token': 'dummy'})
         responses.add(
-            responses.GET, 'https://circleci.com/api/v1/project/area51',
+            responses.GET, 'https://circleci.com/api/v1.1/project/git/some/area51',
             json={'error': 'Project not found'}, status=404
         )
         self.assertRaises(Exception, action.run,
-                          vcs_revision='dhjhvjVv635r6735', project='area51')
+                          vcs_revision='dhjhvjVv635r6735',
+                          vcs_type='git', username='some', project='area51')
 
     @responses.activate
     def test_get_build_num(self):
@@ -44,9 +45,10 @@ class GetBuildNumberActionTestCase(BaseActionTestCase):
             {'build_num': 372, 'vcs_revision': 'foo'}
         ]
         responses.add(
-            responses.GET, 'https://circleci.com/api/v1/project/area51',
+            responses.GET, 'https://circleci.com/api/v1.1/project/git/some/area51',
             json=MOCK_RESPONSE, status=200
         )
         self.assertEqual(373, action.run(
-            vcs_revision='dhjhvjVv635r6735', project='area51')
+            vcs_revision='dhjhvjVv635r6735',
+            vcs_type='git', username='some', project='area51')
         )
