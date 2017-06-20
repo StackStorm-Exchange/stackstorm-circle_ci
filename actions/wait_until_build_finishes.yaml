@@ -1,5 +1,5 @@
 name: wait_until_build_finishes
-runner_type: run-python
+runner_type: python-script
 description: Wait until build finishes.
 enabled: true
 entry_point: wait_until_build_finishes.py

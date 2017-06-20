@@ -1,6 +1,6 @@
 name: run_build
 pack: circle_ci
-runner_type: run-python
+runner_type: python-script
 description: Run build for project and branch.
 enabled: true
 entry_point: run_build.py

@@ -79,3 +79,7 @@ actions.
 ```yaml
 token: Your Circle CI API access token
 ```
+
+**Note** : When modifying the configuration in `/opt/stackstorm/configs/` please
+           remember to tell StackStorm to load these new values by running
+           `st2ctl reload --register-configs`

@@ -1,6 +1,6 @@
 name: get_build_info
 pack: circle_ci
-runner_type: run-python
+runner_type: python-script
 description: Get info for build number.
 enabled: true
 entry_point: get_build_info.py
