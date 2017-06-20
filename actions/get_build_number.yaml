@@ -1,5 +1,5 @@
 name: get_build_number
-runner_type: run-python
+runner_type: python-script
 description: Get build number for given SHA.
 enabled: true
 entry_point: get_build_number.py

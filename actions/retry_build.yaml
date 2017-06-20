@@ -1,6 +1,6 @@
 name: retry_build
 pack: circle_ci
-runner_type: run-python
+runner_type: python-script
 description: Retry build for project.
 enabled: true
 entry_point: retry_build.py
