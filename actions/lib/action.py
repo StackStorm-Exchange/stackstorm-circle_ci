@@ -2,7 +2,7 @@ import httplib
 
 import requests
 
-from st2actions.runners.pythonrunner import Action
+from st2common.runners.base_action import Action
 
 BASE_API_URL = 'https://circleci.com/api'
 API_VERSION = 'v1.1'
