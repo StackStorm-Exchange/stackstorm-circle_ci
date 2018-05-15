@@ -38,7 +38,7 @@ class RunBuild(CircleCI):
 
         try:
             result = response.json()
-        except:
+        except ValueError:
             result = response.content
 
         if response.status_code != httplib.CREATED:
