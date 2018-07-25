@@ -43,6 +43,8 @@ class CircleCIWebhookSensor(Sensor):
                 abort(404)
 
             webhook_body = request.get_json()
+            if not webhook_body:
+                return json.dumps({'response': 'Ignored null payload webhook'})
             payload = {}
             payload['headers'] = self._get_headers_as_dict(request.headers)
             payload['body'] = webhook_body

@@ -7,6 +7,6 @@ keywords:
  - circle ci
  - continous integration
  - ci
-version: 0.5.2
+version: 0.5.3
 author: StackStorm dev
 email: support@stackstorm.com
