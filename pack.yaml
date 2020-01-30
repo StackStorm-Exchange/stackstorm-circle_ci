@@ -3,10 +3,10 @@ ref: circle_ci
 name: Circle CI
 description: CircleCI CI/CD Pipeline
 keywords:
- - circle
- - circle ci
- - continous integration
- - ci
+  - circle
+  - circle ci
+  - continous integration
+  - ci
 version: 0.5.3
 author: StackStorm dev
 email: support@stackstorm.com
