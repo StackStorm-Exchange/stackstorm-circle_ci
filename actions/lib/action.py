@@ -1,4 +1,7 @@
-import httplib
+try:  # Python 3
+    from http import HTTPStatus as http_status
+except ImportError:  # Python 2
+    import httplib as http_status
 
 import requests
 
@@ -47,7 +50,7 @@ class CircleCI(Action):
         elif method == 'PUT':
             response = requests.put(url, data=data, headers=headers)
 
-        if response.status_code in [httplib.FORBIDDEN, httplib.UNAUTHORIZED]:
+        if response.status_code in [http_status.FORBIDDEN, http_status.UNAUTHORIZED]:
             msg = ('Invalid or missing Travis CI auth token. ' +
                    'Make sure you have'
                    'specified valid token in the config file')

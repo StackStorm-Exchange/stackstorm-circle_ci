@@ -1,4 +1,7 @@
-import httplib
+try:  # Python 3
+    from http import HTTPStatus as http_status
+except ImportError:  # Python 2
+    import httplib as http_status
 
 from lib.action import CircleCI
 
@@ -15,7 +18,7 @@ class CancelBuild(CircleCI):
             path, method='POST'
         )
 
-        if response.status_code != httplib.CREATED:
+        if response.status_code != http_status.CREATED:
             raise Exception('Project %s not found.' % project)
 
         return response.json()

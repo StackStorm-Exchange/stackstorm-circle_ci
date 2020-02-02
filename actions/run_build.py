@@ -1,4 +1,7 @@
-import httplib
+try:  # Python 3
+    from http import HTTPStatus as http_status
+except ImportError:  # Python 2
+    import httplib as http_status
 import json
 
 from lib.action import CircleCI
@@ -41,7 +44,7 @@ class RunBuild(CircleCI):
         except ValueError:
             result = response.content
 
-        if response.status_code != httplib.CREATED:
+        if response.status_code != http_status.CREATED:
             raise Exception(
                 'Failed to run build : %s' % (
                     result.get('message', 'Unknown reason.') if isinstance(result, dict) else result

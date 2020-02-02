@@ -1,4 +1,7 @@
-import httplib
+try:  # Python 3
+    from http import HTTPStatus as http_status
+except ImportError:  # Python 2
+    import httplib as http_status
 
 from lib.action import CircleCI
 
@@ -16,7 +19,7 @@ class GetBuildNumberAction(CircleCI):
             extra_headers={'limit': str(search_limit)}
         )
 
-        if response.status_code != httplib.OK:
+        if response.status_code != http_status.OK:
             raise Exception('Project %s not found.' % project)
 
         for build in response.json():
