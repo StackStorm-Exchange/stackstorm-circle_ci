@@ -37,9 +37,12 @@ Usage:
 st2 run circle_ci.get_build_info project=<project> vcs_type=github username=<username> build_num=<build_num>
 ```
 
-### Run build -  ```run_build```
+### Run build - ```run_build```
 
 The action to run a build given a project name and branch. Default branch name is `master`.
+
+NOTE: For Circle CI 2.0 workflows, you should use ``run_project_build`` action which will trigger
+a build for all the workflows in a specific project.
 
 Usage:
 
