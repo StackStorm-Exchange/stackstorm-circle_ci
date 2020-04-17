@@ -8,6 +8,9 @@
 - Add new ``run_project_build`` action which allows user to trigger a build for all the
   workflows for a particular project which utilizes workflows version v2.0.
 
+- Add new ``wait_until_build_finishes`` action which waits until all the workflows in a
+  specific pipeline finish (API v2.0).
+
 ## 0.5.3
 
 - Ignore payloads with no content (Trigger won't be posted)
