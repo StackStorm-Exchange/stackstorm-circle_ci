@@ -1,7 +1,4 @@
-try:  # Python 3
-    from http import HTTPStatus as http_status
-except ImportError:  # Python 2
-    import httplib as http_status
+import six.moves.http_client as http_status
 
 from lib.action import CircleCI
 
