@@ -16,8 +16,8 @@ class GetBuildNumberAction(CircleCI):
             extra_headers={'limit': str(search_limit)}
         )
 
-        if response.status_code != http_status.OK:
-            raise Exception('Project %s not found.' % project)
+        if response.status_code != http_status.OK:  # pylint: disable=no-member
+            raise Exception('Project %s not found. Response: %s' % (project, response.text))
 
         for build in response.json():
             if build['vcs_revision'] == vcs_revision:

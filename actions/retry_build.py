@@ -15,7 +15,7 @@ class RetryBuild(CircleCI):
             path, method='POST'
         )
 
-        if response.status_code != http_status.CREATED:
+        if response.status_code != http_status.CREATED:  # pylint: disable=no-member
             raise Exception('Project %s not found.' % project)
 
         return response.json()

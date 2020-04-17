@@ -39,7 +39,8 @@ class RunProjectBuild(CircleCI):
         except ValueError:
             result = response.content
 
-        if response.status_code not in [http_status.OK, http_status.CREATED]:
+        valid_statuses = [http_status.OK, http_status.CREATED]  # pylint: disable=no-member
+        if response.status_code not in valid_statuses:
             raise Exception(
                 'Failed to run build : %s' % (
                     result.get('message', result) if isinstance(result, dict) else result

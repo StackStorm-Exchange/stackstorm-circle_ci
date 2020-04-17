@@ -20,7 +20,7 @@ class WaitUntilBuildFinishes(CircleCI):
                 path, method='GET',
             )
 
-            if response.status_code != http_status.OK:
+            if response.status_code != http_status.OK:  # pylint: disable=no-member
                 msg = ('Build number %s for project ' % build_num +
                        '%s not found.' % project)
                 raise Exception(msg)

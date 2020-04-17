@@ -15,7 +15,7 @@ class GetBuildInfoAction(CircleCI):
             path, method='GET'
         )
 
-        if response.status_code != http_status.OK:
+        if response.status_code != http_status.OK:  # pylint: disable=no-member
             raise Exception('Build %s of project %s not found.' % (build_num, project))
 
         return response.json()

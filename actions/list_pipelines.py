@@ -1,7 +1,4 @@
-try:  # Python 3
-    from http import HTTPStatus as http_status
-except ImportError:  # Python 2
-    import httplib as http_status
+import six.moves.http_client as http_status
 
 from lib.action import CircleCI
 
@@ -18,7 +15,7 @@ class ListPipelinesAction(CircleCI):
             path, method='GET', api_version='v2'
         )
 
-        if response.status_code != http_status.OK:
+        if response.status_code != http_status.OK:  # pylint: disable=no-member
             raise Exception("Failed to list pipelines: %s" % (str(response.content)))
 
         return response.json()

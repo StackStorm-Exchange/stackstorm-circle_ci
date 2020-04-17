@@ -1,8 +1,6 @@
-try:  # Python 3
-    from http import HTTPStatus as http_status
-except ImportError:  # Python 2
-    import httplib as http_status
 import json
+
+import six.moves.http_client as http_status
 
 from lib.action import CircleCI
 
@@ -44,10 +42,10 @@ class RunBuild(CircleCI):
         except ValueError:
             result = response.content
 
-        if response.status_code != http_status.CREATED:
+        if response.status_code != http_status.CREATED:  # pylint: disable=no-member
             raise Exception(
                 'Failed to run build : %s' % (
-                    result.get('message', 'Unknown reason.') if isinstance(result, dict) else result
+                    result.get('message', str(result)) if isinstance(result, dict) else result
                 )
             )
 

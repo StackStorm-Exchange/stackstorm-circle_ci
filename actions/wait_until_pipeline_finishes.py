@@ -29,36 +29,43 @@ class WaitUntilPipelineWorkflowsFinish(CircleCI):
             path, method='GET', api_version='v2'
         )
 
-        if response.status_code != http_status.OK:
-            raise Exception("Failed to retrieve pipelines: %s" % (str(response.content)))
+        if response.status_code != http_status.OK:  # pylint: disable=no-member
+            raise Exception("Failed to list pipelines: %s" % (str(response.content)))
 
         data = response.json()
 
         if data["state"] in PIPELINE_DONE_STATES:
-            print('Pipeline has finished.')
+            self.logger.info('Pipeline has finished')
             return {"status": "failure"}
 
         pipeline_id = data["id"]
 
         start_time = time.time()
-        done = False
+        timeout_time = (start_time) + wait_timeout
 
         # Find all the pipeline workflows and wait for them to finish
-        while not done:
+        while time.time() < timeout_time:
             path = 'pipeline/%s/workflow' % (pipeline_id)
             response = self._perform_request(
                 path, method='GET', api_version='v2'
             )
 
+            if response.status_code != http_status.OK:  # pylint: disable=no-member
+                # Assume a temporary hiccup
+                self.logger.warning('Received non-200 when listening pipeline workflows ('
+                                    'status=%s). Response: %s' % (response.status_code,
+                                                                  response.text))
+                time.sleep(sleep_interval)
+                continue
+
             all_workflows = response.json()["items"]
             finished_workflows = [w for w in all_workflows if w["status"] in WORKFLOW_DONE_STATES]
-
             workflow_names = [w["name"] for w in finished_workflows]
 
             if len(finished_workflows) >= len(all_workflows):
-                print('All pipeline workflows (%s) have finished' % ', '.join(workflow_names))
+                self.logger.info('All pipeline workflows (%s) have finished' %
+                                 ', '.join(workflow_names))
                 # On success, we also return overall pipeline status
-
                 succeeded_workflows = [w for w in all_workflows if w["status"] in ["success"]]
 
                 if len(succeeded_workflows) >= len(all_workflows):
@@ -68,11 +75,11 @@ class WaitUntilPipelineWorkflowsFinish(CircleCI):
 
                 return {"status": status}
 
-            print("%s/%s workflows (%s) finished" % (len(finished_workflows), len(all_workflows),
-                                                     ', '.join(workflow_names)))
+            self.logger.info("%s/%s workflows (%s) finished" % (len(finished_workflows),
+                                                                len(all_workflows),
+                                                                ', '.join(workflow_names)))
 
             time.sleep(sleep_interval)
-            done = (time.time() - start_time) > wait_timeout
 
         raise Exception('Pipeline did not complete within %s seconds.' %
                         wait_timeout)
