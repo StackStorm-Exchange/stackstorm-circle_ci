@@ -1,0 +1,31 @@
+name: wait_until_pipeline_finishes
+runner_type: python-script
+description: Wait until a Circle CI pipeline (aka all the workflows in the pipeline) finish (API v2).
+enabled: true
+entry_point: wait_until_pipeline_finishes.py
+parameters:
+  project:
+    type: string
+    description: Name of project in circle ci.
+    required: true
+  vcs_type:
+    type: string
+    description: Name of version control system.
+    required: true
+    enum:
+        - github
+        - bitbucket
+    default: github
+  username:
+    type: string
+    description: Username in circle ci.
+    required: true
+  pipeline_num:
+    type: string
+    description: Circle CI pipeline number.
+    required: true
+  wait_timeout:
+    type: number
+    description: How long to wait before timing out (in seconds).
+    required: false
+    default: 600

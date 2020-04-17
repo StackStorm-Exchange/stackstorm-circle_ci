@@ -1,0 +1,27 @@
+name: list_pipelines
+pack: circle_ci
+runner_type: python-script
+description: List all the available pipelines (API v2).
+enabled: true
+entry_point: list_pipelines.py
+parameters:
+  project:
+    type: string
+    description: Name of project in circle ci.
+    required: true
+  vcs_type:
+    type: string
+    description: Name of version control system.
+    required: true
+    enum:
+        - github
+        - bitbucket
+    default: github
+  username:
+    type: string
+    description: Username in circle ci.
+    required: true
+  branch:
+    type: string
+    description: Optional branch name to filter the pipelines.
+    required: false
