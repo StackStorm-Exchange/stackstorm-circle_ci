@@ -49,7 +49,7 @@ class WaitUntilBuildFinishesActionTestCase(BaseActionTestCase):
         except Exception as e:
             expected_msg = ('Build did not complete within %s seconds.' %
                             TEST_TIMEOUT)
-            self.assertEqual(expected_msg, e.message)
+            self.assertEqual(expected_msg, str(e))
 
     @responses.activate
     def test_happy_case(self):
