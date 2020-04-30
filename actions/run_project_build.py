@@ -5,10 +5,10 @@ import six.moves.http_client as http_status
 from lib.action import CircleCI
 
 
-class RunBuild(CircleCI):
+class RunProjectBuild(CircleCI):
 
     def run(self, project, vcs_type, username, branch=None,
-            tag=None, vcs_revision=None, build_parameters=None):
+            tag=None, vcs_revision=None):
         """
         Run build for a SHA in project.
         """
@@ -19,18 +19,15 @@ class RunBuild(CircleCI):
         if (branch and (tag or vcs_revision)) or (tag and vcs_revision):
             raise Exception('Only one of branch, tag or vcs_revision should be provided.')
 
-        data = None
+        data = {}
         if branch:
-            path = 'project/%s/%s/%s/tree/%s' % (vcs_type, username, project, branch)
-        else:
-            path = 'project/%s/%s/%s' % (vcs_type, username, project)
-            data = {'tag': tag} if tag else {'revision': vcs_revision}
+            data['branch'] = branch
+        elif tag:
+            data['tag'] = tag
+        elif vcs_revision:
+            data['vcs_revision'] = vcs_revision
 
-        # build parameters are pass-trhrough to circleci
-        if build_parameters:
-            if data is None:
-                data = {}
-            data['build_parameters'] = build_parameters
+        path = 'project/%s/%s/%s/build' % (vcs_type, username, project)
 
         if data:
             data = json.dumps(data)
@@ -42,10 +39,11 @@ class RunBuild(CircleCI):
         except ValueError:
             result = response.content
 
-        if response.status_code != http_status.CREATED:  # pylint: disable=no-member
+        valid_statuses = [http_status.OK, http_status.CREATED]  # pylint: disable=no-member
+        if response.status_code not in valid_statuses:
             raise Exception(
                 'Failed to run build : %s' % (
-                    result.get('message', str(result)) if isinstance(result, dict) else result
+                    result.get('message', result) if isinstance(result, dict) else result
                 )
             )
 

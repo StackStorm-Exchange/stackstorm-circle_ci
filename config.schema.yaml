@@ -9,6 +9,7 @@
     type: "string"
     secret: false
     required: true
+    default: "circleci.com"
   port:
     description: "Circle CI server port."
     type: "integer"

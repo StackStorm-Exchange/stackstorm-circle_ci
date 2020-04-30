@@ -1,7 +1,4 @@
-try:  # Python 3
-    from http import HTTPStatus as http_status
-except ImportError:  # Python 2
-    import httplib as http_status
+import six.moves.http_client as http_status
 
 from lib.action import CircleCI
 
@@ -18,7 +15,7 @@ class GetBuildInfoAction(CircleCI):
             path, method='GET'
         )
 
-        if response.status_code != http_status.OK:
+        if response.status_code != http_status.OK:  # pylint: disable=no-member
             raise Exception('Build %s of project %s not found.' % (build_num, project))
 
         return response.json()

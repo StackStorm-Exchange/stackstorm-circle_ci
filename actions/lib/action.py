@@ -9,7 +9,7 @@ from st2common.runners.base_action import Action
 
 BASE_API_URL = 'https://circleci.com/api'
 API_VERSION = 'v1.1'
-API_URL = '%s/%s/' % (BASE_API_URL, API_VERSION)
+
 HEADER_ACCEPT = 'application/json'
 HEADER_CONTENT_TYPE = 'application/json'
 
@@ -32,8 +32,8 @@ class CircleCI(Action):
         return headers
 
     def _perform_request(self, path, method, data=None, requires_auth=True,
-                         extra_headers=None):
-        url = API_URL + path
+                         extra_headers=None, api_version='v1.1'):
+        url = '%s/%s/%s' % (BASE_API_URL, api_version, path)
         self.logger.debug('URL: %s', url)
 
         headers = self._get_base_headers()
