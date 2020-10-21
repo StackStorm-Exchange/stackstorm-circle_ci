@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.6.1
+
+- Fix ancient copy/paste error from Travis pack
+
 ## 0.6.0
 
 - Default ``host`` configuration option to ``circleci.com``. This way it works out of the
