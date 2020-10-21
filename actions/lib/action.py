@@ -51,7 +51,7 @@ class CircleCI(Action):
             response = requests.put(url, data=data, headers=headers)
 
         if response.status_code in [http_status.FORBIDDEN, http_status.UNAUTHORIZED]:
-            msg = ('Invalid or missing Travis CI auth token. ' +
+            msg = ('Invalid or missing CircleCI auth token. ' +
                    'Make sure you have'
                    'specified valid token in the config file')
             raise Exception(msg)
